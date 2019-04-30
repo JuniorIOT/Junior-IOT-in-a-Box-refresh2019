@@ -35,7 +35,6 @@ unsigned long datetime_gps=0;
 
 #include "keys.h"          // the personal keys to identify our own nodes, in a file outside GITHUB
 #include "juniorIOT_LoraWan.h" // this is where all the LoraWan code and libraries are defined
-// #include "junorIOT_RFM95_radio.h"  --> this allows device to device radio, no longer in use
 
 //-------------- GPS things ------------//
 #define GPS_FIX_HDOP   // to prevent eror: 'const class gps_fix' has no member named 'hdop'
