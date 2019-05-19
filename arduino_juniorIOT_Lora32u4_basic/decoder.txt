@@ -1,0 +1,29 @@
+function Decoder(bytes, port) {
+  // Decode an uplink message from a buffer
+  // (array) of bytes to an object of fields.
+  var decoded = {};
+
+
+//-------------- Message Byte Positions  ------------//
+var GPS_sendbufferStartByte =0 //9 bytes
+var PAYLOADSIZE =9 //Max 40    The size of the package to be sent
+
+
+  var _lat = (bytes[GPS_sendbufferStartByte + 0] << 16 | bytes[GPS_sendbufferStartByte + 1] << 8 | bytes[GPS_sendbufferStartByte + 2]) / 16777215.0 * 180.0 - 90;
+  var _lng = (bytes[GPS_sendbufferStartByte + 3] << 16 | bytes[GPS_sendbufferStartByte + 4] << 8 | bytes[GPS_sendbufferStartByte + 5]) / 16777215.0 * 360.0 - 180;
+  var _alt = (bytes[GPS_sendbufferStartByte + 6] << 8) + bytes[GPS_sendbufferStartByte + 7];
+  var _hdop = bytes[GPS_sendbufferStartByte + 8] / 10.0;
+  _lat = _lat.toFixed(6);
+  if (_lat > -0.001 && _lat < 0.001) {_lat=0}
+  _lng = _lng.toFixed(6);
+  if (_lng > -0.001 && _lng < 0.001) {_lng=0}
+
+
+  return {
+    gps_lat: _lat,
+    gps_lng: _lng,
+    gps_alt: _alt,
+    gps_hdop: _hdop
+
+  };
+}
