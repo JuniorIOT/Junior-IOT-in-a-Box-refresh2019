@@ -1,0 +1,6 @@
+function Decoder(bytes, port) {
+  // Decode plain text; for testing purposes only
+  return {
+    receivedString: String.fromCharCode.apply(null, bytes)
+  };
+}
