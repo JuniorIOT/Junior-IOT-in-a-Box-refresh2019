@@ -1,0 +1,54 @@
+function Decoder(bytes, port) {
+  // Decode an uplink message from a buffer
+  // (array) of bytes to an object of fields.
+  var decoded = {};
+
+
+//-------------- Message Byte Positions  ------------//
+var GPS_sendbufferStartByte =0 //9 bytes
+var internals_sendbufferStartByte =9 //17 bytes
+var BME280_sendbufferStartByte =26 //6 bytes
+var PAYLOADSIZE =40 //Max 40    The size of the package to be sent
+
+
+  var _lat = (bytes[GPS_sendbufferStartByte + 0] << 16 | bytes[GPS_sendbufferStartByte + 1] << 8 | bytes[GPS_sendbufferStartByte + 2]) / 16777215.0 * 180.0 - 90;
+  var _lng = (bytes[GPS_sendbufferStartByte + 3] << 16 | bytes[GPS_sendbufferStartByte + 4] << 8 | bytes[GPS_sendbufferStartByte + 5]) / 16777215.0 * 360.0 - 180;
+  var _alt = (bytes[GPS_sendbufferStartByte + 6] << 8) + bytes[GPS_sendbufferStartByte + 7];
+  var _hdop = bytes[GPS_sendbufferStartByte + 8] / 10.0;
+  _lat = _lat.toFixed(6);
+  if (_lat > -0.001 && _lat < 0.001) {_lat=0}
+  _lng = _lng.toFixed(6);
+  if (_lng > -0.001 && _lng < 0.001) {_lng=0}
+
+  var _A0 = ( bytes[internals_sendbufferStartByte + 0] << 8 | bytes[internals_sendbufferStartByte + 1]);
+  var _A0Btn = 0;
+  if (_A0 > 100) {_myBtn = 1};
+  var _A3 = ( bytes[internals_sendbufferStartByte + 2] << 8 | bytes[internals_sendbufferStartByte + 3]);
+  var _A4 = ( bytes[internals_sendbufferStartByte + 4] << 8 | bytes[internals_sendbufferStartByte + 5]);
+  var _A5 = ( bytes[internals_sendbufferStartByte + 6] << 8 | bytes[internals_sendbufferStartByte + 7]);
+
+  
+  var _BME280_Temp = -1.0;
+  _BME280_Temp = (bytes[BME280_sendbufferStartByte + 0] << 8 | bytes[BME280_sendbufferStartByte + 1]) / 100.0 - 100.0;
+  var _BME280_Hum = -1.0;
+  _BME280_Hum = (bytes[BME280_sendbufferStartByte + 2] << 8 | bytes[BME280_sendbufferStartByte + 3]) / 100.0;
+  var _BME280_Press = -1.0;
+  _BME280_Press = (bytes[BME280_sendbufferStartByte + 4] << 8 | bytes[BME280_sendbufferStartByte + 5]) * 10.0;
+
+  return {
+    gps_lat: _lat,
+    gps_lng: _lng,
+    gps_alt: _alt,
+    gps_hdop: _hdop,
+    
+    BME280_Temp: _BME280_Temp,
+    BME280_Hum: _BME280_Hum,
+    BME280_Press: _BME280_Press,
+
+    T: _BME280_Temp,
+    RH: _BME280_Hum,
+    P: _BME280_Press / 100.0, 
+    LAT: _lat,
+    LON: _lng
+  };
+}
