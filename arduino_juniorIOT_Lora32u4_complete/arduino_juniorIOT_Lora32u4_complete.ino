@@ -17,6 +17,7 @@
 
 //-------------- Message Byte Positions  ------------//
 #define GPS_sendbufferStartByte 0 //9 bytes
+#define internals_sendbufferStartByte 9 //17 bytes
 #define BME280_sendbufferStartByte 26 //6 bytes
 
 #define PAYLOADSIZE 32 //Max 40    The size of the package to be sent
@@ -46,7 +47,7 @@ unsigned long datetime_gps=0;
 //----------sensor things -------//
 #include <Wire.h>
 #include "JuniorIOT_BME280.h"
-
+#include "juniorIOT_32u4internals.h"
 
 void setup() {  
   pinMode(LEDPIN, OUTPUT);
@@ -60,6 +61,7 @@ void setup() {
   // initialize all sensors and things
   GPS_init();
   BME280_init();
+  internals_init();
   // once all values have been initialized, init Lora and send message to TTN
   LoraWan_init();  // --> init and also send one message 
     
@@ -82,6 +84,7 @@ void loop() {
   GPS_measure();  // also gets current datetime
   Serial.print(F("\nRedo all measurements. t=")); Serial.println(millis());
   BME280_measure();
+  internals_measure();
   
 
   ////////// Now CHECK IF we need to send a LORAWAN update to the world  ///////////
