@@ -1,3 +1,2 @@
-keys.h
-arduino_juniorIOT_Lora32u4_basic/keys.h
-arduino_juniorIOT_Lora32u4_plus/keys.h
+*keys.h
+*.DS_Store
