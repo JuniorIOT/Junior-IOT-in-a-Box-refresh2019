@@ -19,7 +19,7 @@
 #define GPS_sendbufferStartByte 0 //9 bytes
 
 
-#define PAYLOADSIZE 9 //Max 40    The size of the package to be sent
+#define PAYLOADSIZE 40 //Max 40    The size of the package to be sent
 uint8_t  myLoraWanData[40];  // including byte[0]
 unsigned long datetime_gps=0;
 
