@@ -28,7 +28,7 @@ unsigned long datetime_gps=0;
 //#define SHOW_DEBUGLEVEL2     // if SHOW_DEBUGLEVEL2 is defined, some code is added to display deeper SHOW_DEBUG info
 
 //-------------- LoraWan libraries, mappings and things ------------//
-#define LORAWAN_TX_INTERVAL_MIN 15  // seconds between LoraWan messages if change in values is detected
+#define LORAWAN_TX_INTERVAL_MIN 60  // seconds between LoraWan messages if change in values is detected
 #define LORAWAN_TX_INTERVAL_MAX 240   // seconds between LoraWan messages
 #define TXTRIGGER_gps_movement 8000 // will send if Min interval reached and GPS movement > value
     // gps coordinates in Long value means 52.6324510 translates into 526324510

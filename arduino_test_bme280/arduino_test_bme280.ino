@@ -16,7 +16,15 @@ uint8_t  message[6];  // including byte[0]
 
 void setup()
 {
-  Serial.begin(9600);
+  pinMode(5, OUTPUT);
+  pinMode(6, OUTPUT);
+  digitalWrite(6, HIGH);
+  digitalWrite(5, LOW);
+  
+  Serial.begin(115200);
+  delay(1000);
+  Serial.println("test start");
+  
   if(!bme280.init()){
     Serial.println("Device error!");
   }

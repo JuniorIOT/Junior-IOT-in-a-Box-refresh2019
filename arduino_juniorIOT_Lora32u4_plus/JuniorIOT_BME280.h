@@ -51,6 +51,12 @@ void BME280_measure () {
 }
 
 void BME280_init() {  // see SEEDSTUDIO example
+
+  pinMode(5, OUTPUT);
+  pinMode(6, OUTPUT);
+  digitalWrite(6, HIGH);
+  digitalWrite(5, LOW);
+  
   Serial.print(F("BME280 init. t=")); Serial.println(millis()); 
   if(!bme280.init()){
     Serial.println("BME280 device error or not found");
